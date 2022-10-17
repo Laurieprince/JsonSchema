@@ -1,0 +1,178 @@
+{
+	"$schema": "https://json-schema.org/draft/2019-09/schema",
+	"$id": "schemaLocation",
+	"title": "Diagram",
+	"description": "A diagram",
+	"type": "object",
+	"properties": {
+		"diagram": {
+			"type": "string"
+		},
+		"nodes": {
+			"type": "array",
+			"description": "string",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"x": {
+						"type": "number"
+					},
+					"y": {
+						"type": "number"
+					},
+					"id": {
+						"type": "number"
+					},
+					"children": {
+						"type": "array",
+						"items": {
+							"type": "number"
+						}
+					},
+					"value": {
+						"type": "string"
+					},
+					"type": {
+						"enum": [
+							"PointNode",
+							"ObjectNode",
+							"FieldNode",
+							"NoteNode"
+						]
+					}
+				},
+				"allOf": [
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "ObjectNode"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"name"
+							]
+						}
+					},
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "FieldNode"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"value",
+								"name"
+							]
+						}
+					},
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "NoteNode"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"name"
+							]
+						}
+					}
+				],
+				"required": [
+					"x",
+					"y",
+					"id",
+					"type"
+				]
+			}
+		},
+		"edges": {
+			"type": "array",
+			"description": "string",
+			"items": {
+				"type": "object",
+				"properties": {
+					"Generalization Type": {
+						"enum": [
+							"Inheritance",
+							"Implementation"
+						]
+					},
+					"directionality": {
+						"enum": [
+							"Unspecified",
+							"Unidirectional",
+							"Bidirectional"
+						]
+					},
+					"Aggregation Type": {
+						"enum": [
+							"Aggregation",
+							"Composition"
+						]
+					},
+					"startLabel": {
+						"type": "string"
+					},
+					"middleLabel": {
+						"type": "string"
+					},
+					"endLabel": {
+						"type": "string"
+					},
+					"start": {
+						"type": "number"
+					},
+					"end": {
+						"type": "number"
+					},
+					"type": {
+						"enum": [
+							"NoteEdge",
+							"ObjectCollaborationEdge",
+							"ObjectReferenceEdge"
+						]
+					}
+				},
+				"allOf": [
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": [
+										"ObjectCollaborationEdge",
+										"ObjectReferenceEdge"
+									]
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"middleLabel"
+							]
+						}
+					}
+				],
+				"required": [
+					"start",
+					"end",
+					"type"
+				]
+			}
+		},
+		"version": {
+			"type": "string"
+		}
+	}
+}

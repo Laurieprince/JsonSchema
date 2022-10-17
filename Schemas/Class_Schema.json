@@ -1,0 +1,258 @@
+{
+	"$schema": "https://json-schema.org/draft/2019-09/schema",
+	"$id": "schemaLocation",
+	"title": "Diagram",
+	"description": "ClassDiagram",
+	"type": "object",
+	"properties": {
+		"diagram": {
+			"type": "string"
+		},
+		"nodes": {
+			"type": "array",
+			"description": "string",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"x": {
+						"type": "number"
+					},
+					"y": {
+						"type": "number"
+					},
+					"id": {
+						"type": "number"
+					},
+					"methods": {
+						"type": "string"
+					},
+					"contents": {
+						"type": "string"
+					},
+					"attributes": {
+						"type": "string"
+					},
+					"type": {
+						"enum": [
+							"ClassNode",
+							"PackageDescriptionNode",
+							"PackageNode",
+							"NoteNode",
+							"PointNode",
+							"InterfaceNode"
+						]
+					}
+				},
+				"allOf": [
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "PackageNode"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"name"
+							]
+						}
+					},
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "PackageDescriptionNode"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"contents"
+							]
+						}
+					},
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "ClassNode"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"attributes",
+								"name",
+								"methods"
+							]
+						}
+					},
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "InterfaceNode"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"methods",
+								"name"
+							]
+						}
+					},
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "NoteNode"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"name"
+							]
+						}
+					}
+				],
+				"required": [
+					"x",
+					"y",
+					"id",
+					"type"
+				]
+			}
+		},
+		"edges": {
+			"type": "array",
+			"description": "string",
+			"items": {
+				"type": "object",
+				"properties": {
+					"Generalization Type": {
+						"enum": [
+							"Inheritance",
+							"Implementation"
+						]
+					},
+					"directionality": {
+						"enum": [
+							"Unspecified",
+							"Unidirectional",
+							"Bidirectional"
+						]
+					},
+					"Aggregation Type": {
+						"enum": [
+							"Aggregation",
+							"Composition"
+						]
+					},
+					"startLabel": {
+						"type": "string"
+					},
+					"middleLabel": {
+						"type": "string"
+					},
+					"endLabel": {
+						"type": "string"
+					},
+					"start": {
+						"type": "number"
+					},
+					"end": {
+						"type": "number"
+					},
+					"type": {
+						"enum": [
+							"AggregationEdge",
+							"AssociationEdge",
+							"DependencyEdge",
+							"GeneralizationEdge",
+							"NoteEdge"
+						]
+					}
+				},
+				"allOf": [
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "AggregationEdge"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"Aggregation Type",
+								"startLabel",
+								"middleLabel",
+								"endLabel"
+							]
+						}
+					},
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "AssociationEdge"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"directionality",
+								"startLabel",
+								"middleLabel",
+								"endLabel"
+							]
+						}
+					},
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "DependencyEdge"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"directionality",
+								"middleLabel"
+							]
+						}
+					},
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": "GeneralizationEdge"
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"Generalization Type"
+							]
+						}
+					}
+				],
+				"required": [
+					"start",
+					"end",
+					"type"
+				]
+			}
+		},
+		"version": {
+			"type": "string"
+		}
+	}
+}

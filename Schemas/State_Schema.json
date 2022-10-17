@@ -1,0 +1,117 @@
+{
+	"$schema": "https://json-schema.org/draft/2019-09/schema",
+	"$id": "schemaLocation",
+	"title": "Diagram",
+	"description": "A diagram",
+	"type": "object",
+	"properties": {
+		"diagram": {
+			"type": "string"
+		},
+		"nodes": {
+			"type": "array",
+			"description": "string",
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"x": {
+						"type": "number"
+					},
+					"y": {
+						"type": "number"
+					},
+					"id": {
+						"type": "number"
+					},
+					"type": {
+						"enum": [
+							"PointNode",
+							"InitialStateNode",
+							"FinalStateNode",
+							"NoteNode",
+							"StateNode"
+						]
+					}
+				},
+				"allOf": [
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": [
+										"NoteNode",
+										"StateNode"
+									]
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"name"
+							]
+						}
+					}
+				],
+				"required": [
+					"x",
+					"y",
+					"id",
+					"type"
+				]
+			}
+		},
+		"edges": {
+			"type": "array",
+			"description": "string",
+			"items": {
+				"type": "object",
+				"properties": {
+					"middleLabel": {
+						"type": "string"
+					},
+					"start": {
+						"type": "number"
+					},
+					"end": {
+						"type": "number"
+					},
+					"type": {
+						"enum": [
+							"NoteEdge",
+							"StateTransitionEdge"
+						]
+					}
+				},
+				"allOf": [
+					{
+						"if": {
+							"properties": {
+								"type": {
+									"const": [
+										"StateTransitionEdge"
+									]
+								}
+							}
+						},
+						"then": {
+							"required": [
+								"middleLabel"
+							]
+						}
+					}
+				],
+				"required": [
+					"start",
+					"end",
+					"type"
+				]
+			}
+		},
+		"version": {
+			"type": "string"
+		}
+	}
+}
